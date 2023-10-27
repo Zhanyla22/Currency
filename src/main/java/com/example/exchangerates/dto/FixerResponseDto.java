@@ -14,14 +14,12 @@ import java.util.Map;
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ApilayerResponseDto {
-
+public class FixerResponseDto {
     boolean success;
-    String terms;
     Literatura site;
-    String privacy;
     Long timestamp;
-    Currency source;
-    Map<String, Double> quotes;
+    Currency base;
+    String date;
+    Map<String, Double> rates;
     String localDate;
 }

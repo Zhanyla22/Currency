@@ -1,6 +1,7 @@
 package com.example.exchangerates.util;
 
 import com.example.exchangerates.dto.ApilayerResponseDto;
+import com.example.exchangerates.dto.CombinedDto;
 import com.example.exchangerates.exceptions.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +50,7 @@ public class DictionaryFileUtil {
         }
     }
 
-    public <T> List<ApilayerResponseDto> getModelInFile(String fileName, Class<T> type) {
+    public <T> List<CombinedDto> getModelInFile(String fileName, Class<T> type) {
         String encryptedData = encryptionUtil.decrypt(
                 localLoaderUtil.load(String.class, fileName),
                 secretKey

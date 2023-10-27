@@ -3,7 +3,6 @@ package com.example.exchangerates.controller;
 import com.example.exchangerates.controller.base.BaseController;
 import com.example.exchangerates.dto.ResponseDto;
 import com.example.exchangerates.dto.TestDto;
-import com.example.exchangerates.enums.Currency;
 import com.example.exchangerates.external.CurrencyUpdateService;
 import com.example.exchangerates.service.ExchangeService;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +27,18 @@ public class TestController extends BaseController {
         return constructSuccessResponse(testDto);
     }
 
-    @GetMapping("/get-currency/{year}")
-    public ResponseEntity<ResponseDto> get(@PathVariable String year) throws Exception {
-        return constructSuccessResponse(currencyUpdateService.getAll(year));
+    @GetMapping("/get-currency")
+    public ResponseEntity<ResponseDto> get() throws Exception {
+        return constructSuccessResponse(currencyUpdateService.getAll());
     }
 
+    @GetMapping("/get-current")
+    public ResponseEntity<ResponseDto> getCurrent() throws Exception {
+        return constructSuccessResponse(currencyUpdateService.getCurrent());
+    }
 
+    @GetMapping("/get-by-date")
+    public ResponseEntity<ResponseDto> getByDate(@RequestParam String date) throws Exception{
+        return constructSuccessResponse(currencyUpdateService.getByDate(date));
+    }
 }
