@@ -53,7 +53,9 @@ public class CurrencyUpdateService implements ExchangeService {
     @Value("${access.key.fixer}")
     String accessKey3;
 
-
+    /**
+     * шедулер который отпрашивает каждые 30 мин сайты и записывает ответы в файл
+     */
     @Override
     @Scheduled(fixedRate = 60000 * 30)
     public void currencyUpdate() {
@@ -64,6 +66,10 @@ public class CurrencyUpdateService implements ExchangeService {
 
         List<CombinedDto> combinedDtos = getCurrentCurrency(currencyList, resultList, resultListSite2, resultListSite3);
 
+        /**
+         * чтобы записать данные в файл, вытаскиваем все содержимое файла, добавляем новые записи и все перезаписываем
+         * данные в файл записываются в зашифрованном виде, алгоритм AES, обратно получаем дешифрованные данные- находится в AesUtil
+         */
         try {
             List<CombinedDto> fileData = dictionaryFileUtil.getModelInFile(fileName, CombinedDto.class);
 
@@ -79,6 +85,9 @@ public class CurrencyUpdateService implements ExchangeService {
         }
     }
 
+    /**
+     * Вытащит все содержимое файла
+     */
     @Override
     public List<CombinedDto> getAll() {
         return dictionaryFileUtil.getModelInFile(fileName, CombinedDto.class);
@@ -99,6 +108,29 @@ public class CurrencyUpdateService implements ExchangeService {
         return filteredDate;
     }
 
+    /**
+     * возвращает текущих курсов валют из всех 3-х источников
+     */
+    @Override
+    public List<CombinedDto> getCurrent() {
+        List<Currency> currencyList = Arrays.asList(Currency.USD, Currency.EUR, Currency.RUB, Currency.CNY, Currency.KZT);
+        List<ApilayerResponseDto> resultList = new ArrayList<>();
+        List<ExchangeRatesResponseDto> resultListSite2 = new ArrayList<>();
+        List<FixerResponseDto> resultListSite3 = new ArrayList<>();
+        List<CombinedDto> answer = new ArrayList<>();
+
+        List<CombinedDto> combinedDtos = getCurrentCurrency(currencyList, resultList, resultListSite2, resultListSite3);
+        return combinedDtos;
+    }
+
+    /**
+     * метод который собирает данные из 3х сайтов, этот метод используется в 2х местах
+     * @param currencyList - лист валют(например доллар к сому, евро к сому, тут доллар и евро);
+     * @param  resultList - лист валют от первого сайта
+     * @param  resultListSite2 - лист валют из 2го сайта
+     * @param  resultListSite3 - Лист валют из 3-сайта
+     * @return  List<CombinedDto>  - c помощью Objectmapper происходит маппирование в обьект с Json, находится в ConverUtil(toObject)
+     */
     public List<CombinedDto> getCurrentCurrency(List<Currency> currencyList, List<ApilayerResponseDto> resultList, List<ExchangeRatesResponseDto> resultListSite2, List<FixerResponseDto> resultListSite3) {
         try {
             currencyList.forEach(x -> {
@@ -108,7 +140,10 @@ public class CurrencyUpdateService implements ExchangeService {
                         .addQueryParameter("source", x.toString());
                 try {
                     String response = requestUtil.executeRequest(uri.build());
-//                    Thread.sleep(3000);
+                    /**
+                     * система не успевала получать ответы с сайта, поэтому пришлось добавить
+                     */
+                    Thread.sleep(3000);
                     ApilayerResponseDto apilayerResponseDto = ConverUtil.toObject(response, ApilayerResponseDto.class);
                     apilayerResponseDto.setSite(Literatura.APILAYER);
                     apilayerResponseDto.setLocalDate(LocalDate.now().toString());
@@ -122,7 +157,7 @@ public class CurrencyUpdateService implements ExchangeService {
                         .addQueryParameter("symbols", x.toString());
                 try {
                     String response2 = requestUtil.executeRequest(url2.build());
-//                    Thread.sleep(3000);
+                    Thread.sleep(3000);
                     ExchangeRatesResponseDto exchangeRatesResponseDto = ConverUtil.toObject(response2, ExchangeRatesResponseDto.class);
                     exchangeRatesResponseDto.setSite(Literatura.OPENEXCHANGE);
                     exchangeRatesResponseDto.setLocalDate(LocalDate.now().toString());
@@ -136,7 +171,7 @@ public class CurrencyUpdateService implements ExchangeService {
                         .addQueryParameter("symbols", x.toString());
                 try {
                     String response3 = requestUtil.executeRequest(url3.build());
-//                    Thread.sleep(3000);
+                    Thread.sleep(3000);
                     FixerResponseDto fixerResponseDto = ConverUtil.toObject(response3, FixerResponseDto.class);
                     fixerResponseDto.setSite(Literatura.FIXER);
                     fixerResponseDto.setLocalDate(LocalDate.now().toString());
@@ -157,17 +192,5 @@ public class CurrencyUpdateService implements ExchangeService {
         } catch (Exception e) {
             throw new BaseException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @Override
-    public List<CombinedDto> getCurrent() {
-        List<Currency> currencyList = Arrays.asList(Currency.USD, Currency.EUR, Currency.RUB, Currency.CNY, Currency.KZT);
-        List<ApilayerResponseDto> resultList = new ArrayList<>();
-        List<ExchangeRatesResponseDto> resultListSite2 = new ArrayList<>();
-        List<FixerResponseDto> resultListSite3 = new ArrayList<>();
-        List<CombinedDto> answer = new ArrayList<>();
-
-        List<CombinedDto> combinedDtos = getCurrentCurrency(currencyList, resultList, resultListSite2, resultListSite3);
-        return combinedDtos;
     }
 }

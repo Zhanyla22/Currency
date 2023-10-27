@@ -15,16 +15,17 @@ public class ExchangeController extends BaseController {
 
     private final ExchangeService exchangeService;
 
-    @GetMapping("/get-currency")
-    public ResponseEntity<ResponseDto> get(){
-        return constructSuccessResponse(exchangeService.getAll());
-    }
-
+    /**
+     * получение текущих курсов валют из всех 3-х источников
+     */
     @GetMapping("/get-current")
     public ResponseEntity<ResponseDto> getCurrent(){
         return constructSuccessResponse(exchangeService.getCurrent());
     }
 
+    /**
+     * получение курсов по датам
+     */
     @GetMapping("/get-by-date")
     public ResponseEntity<ResponseDto> getByDate(@RequestParam String date){
         return constructSuccessResponse(exchangeService.getByDate(date));

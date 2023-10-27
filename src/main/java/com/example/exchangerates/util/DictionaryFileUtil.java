@@ -32,6 +32,11 @@ public class DictionaryFileUtil {
         this.localLoaderUtil = localLoaderUtil;
     }
 
+    /**
+     * записывание данных в файл
+     * @param models данные-объект
+     * @param fileName - куда, в какой файл
+     */
     public void load(Object models, String fileName) {
         try {
             localLoaderUtil.store(
@@ -46,6 +51,11 @@ public class DictionaryFileUtil {
         }
     }
 
+    /**
+     * получение дешифрованных данных с файла
+     * @param fileName - из какого файла
+     * @param type класс
+     */
     public <T> List<CombinedDto> getModelInFile(String fileName, Class<T> type) {
         String encryptedData = aesUtil.decrypt(
                 localLoaderUtil.load(String.class, fileName),

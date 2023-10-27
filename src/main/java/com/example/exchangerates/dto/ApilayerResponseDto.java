@@ -5,9 +5,11 @@ import com.example.exchangerates.enums.Literatura;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 import java.util.Map;
 
+/**
+ * DTO для первого сайта, содержит ниже указанные поля
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

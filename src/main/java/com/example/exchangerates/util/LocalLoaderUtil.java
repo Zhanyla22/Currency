@@ -23,6 +23,9 @@ import java.nio.file.Paths;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LocalLoaderUtil<T> {
+    /**
+     * директория файла
+     */
     @Value("${store.dir:currency_data}")
     String path;
 
@@ -31,7 +34,11 @@ public class LocalLoaderUtil<T> {
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .registerModule(new JavaTimeModule());
 
-
+    /**
+     * сохранение файла
+     * @param data -объект- данные
+     * @param fileName - название файла
+     */
     public void store(T data, String fileName) {
         try {
             try (FileWriter writer = new FileWriter(getFilePath(fileName).toFile(), false)) {
@@ -44,6 +51,12 @@ public class LocalLoaderUtil<T> {
         }
     }
 
+    /**
+     * Для чтения файла
+     * @param type класс-объект
+     * @param fileName - название файла
+     * @return
+     */
     public T load(Class<T> type, String fileName) {
         try {
             try (FileReader reader = new FileReader(getFilePath(fileName).toFile())) {
@@ -56,6 +69,9 @@ public class LocalLoaderUtil<T> {
         }
     }
 
+    /**
+     * получение пути к файлу, создание файла
+     */
     private Path getFilePath(String fileName) {
         File storedFile = new File(
                 Paths.get(String.format("%s", path)).toFile().toURI()

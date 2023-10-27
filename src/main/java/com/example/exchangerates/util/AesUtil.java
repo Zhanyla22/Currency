@@ -25,6 +25,12 @@ public class AesUtil {
     SecretKeySpec secretKey;
     final String ALGORITHM = "AES";
 
+    /**
+     * шифрование с помощтю ключа
+     * @param data
+     * @param secret
+     * @return
+     */
     public String encrypt(String data, String secret) {
         prepareSecreteKey(secret);
 
@@ -48,6 +54,12 @@ public class AesUtil {
         }
     }
 
+    /**
+     * дешифрование с помощью ключа
+     * @param data
+     * @param secret
+     * @return
+     */
     public String decrypt(String data, String secret) {
         prepareSecreteKey(secret);
 

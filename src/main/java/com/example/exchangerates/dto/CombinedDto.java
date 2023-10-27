@@ -5,6 +5,10 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
+
+/**
+ * DTO для объеденения 3х дто сайтов
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

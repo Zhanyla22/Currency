@@ -10,6 +10,9 @@ public class RequestUtil {
 
     OkHttpClient client = new OkHttpClient();
 
+    /**
+     * Для получение ответа из внещних api
+     */
     public String executeRequest(HttpUrl uri) throws Exception {
         Request request = new Request.Builder().url(uri).build();
 

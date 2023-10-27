@@ -8,6 +8,10 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 import java.util.Map;
 
+
+/**
+ * DTO для второго сайта, содержит ниже указанные поля
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

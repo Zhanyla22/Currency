@@ -4,6 +4,10 @@ import com.example.exchangerates.enums.ResultCode;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
+/**
+ * единий DTO для ответов
+ */
 @Getter
 @Setter
 @Builder
