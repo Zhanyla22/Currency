@@ -21,7 +21,7 @@ import java.util.Base64;
 @Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EncryptionUtil {
+public class AesUtil {
     SecretKeySpec secretKey;
     final String ALGORITHM = "AES";
 

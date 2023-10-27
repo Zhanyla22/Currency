@@ -1,16 +1,17 @@
 package com.example.exchangerates.service;
 
-import com.example.exchangerates.dto.ExchangeResponseDto;
-import com.example.exchangerates.dto.TestDto;
+import com.example.exchangerates.dto.CombinedDto;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ExchangeService {
 
-//    void addNewCurrency();
+    void currencyUpdate();
 
-    ExchangeResponseDto getCurrency(String url) throws IOException;
+    List<CombinedDto> getAll();
 
-    List<TestDto> getAll(String url) throws IOException;
+    List<CombinedDto> getByDate(String date);
+
+    List<CombinedDto> getCurrent();
+
 }

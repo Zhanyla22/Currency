@@ -1,19 +1,12 @@
 package com.example.exchangerates.controller;
 
 import com.example.exchangerates.controller.base.BaseController;
-import com.example.exchangerates.dto.ExchangeResponseDto;
 import com.example.exchangerates.dto.ResponseDto;
-import com.example.exchangerates.dto.TestDto;
 import com.example.exchangerates.service.ExchangeService;
+import com.example.exchangerates.service.impl.CurrencyUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,22 +15,18 @@ public class ExchangeController extends BaseController {
 
     private final ExchangeService exchangeService;
 
-//    public ResponseEntity<ResponseDto> getAllExchange(){
-//        return constructSuccessResponse();
-//    }
+    @GetMapping("/get-currency")
+    public ResponseEntity<ResponseDto> get(){
+        return constructSuccessResponse(exchangeService.getAll());
+    }
 
-//    public ResponseEntity<ResponseDto> addNewCurrency(){
-//        return constructSuccessResponse();
-//    }
+    @GetMapping("/get-current")
+    public ResponseEntity<ResponseDto> getCurrent(){
+        return constructSuccessResponse(exchangeService.getCurrent());
+    }
 
-//    @GetMapping("/get")
-//    public ResponseEntity<ResponseDto> getCurrency() throws IOException {
-//        return constructSuccessResponse(exchangeService.getCurrency());
-//    }
-
-    @GetMapping("/get")
-    public ResponseEntity<ResponseDto> getById(@RequestParam String url) throws IOException {
-        ExchangeResponseDto exchangeResponseDto = exchangeService.getCurrency(url);
-        return constructSuccessResponse(exchangeResponseDto);
+    @GetMapping("/get-by-date")
+    public ResponseEntity<ResponseDto> getByDate(@RequestParam String date){
+        return constructSuccessResponse(exchangeService.getByDate(date));
     }
 }

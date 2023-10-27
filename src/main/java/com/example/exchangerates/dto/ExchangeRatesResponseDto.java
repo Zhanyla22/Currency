@@ -15,11 +15,18 @@ import java.util.Map;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ExchangeRatesResponseDto {
+
     String disclaimer;
+
     String license;
+
     Literatura site;
+
     Long timestamp;
+
     Currency base;
+
     Map<String, Double> rates;
+
     String localDate;
 }

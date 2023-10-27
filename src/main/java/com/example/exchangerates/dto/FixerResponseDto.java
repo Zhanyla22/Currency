@@ -15,11 +15,18 @@ import java.util.Map;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FixerResponseDto {
+
     boolean success;
+
     Literatura site;
+
     Long timestamp;
+
     Currency base;
+
     String date;
+
     Map<String, Double> rates;
+
     String localDate;
 }

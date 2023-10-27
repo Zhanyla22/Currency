@@ -17,11 +17,18 @@ import java.util.Map;
 public class ApilayerResponseDto {
 
     boolean success;
+
     String terms;
+
     Literatura site;
+
     String privacy;
+
     Long timestamp;
+
     Currency source;
+
     Map<String, Double> quotes;
+
     String localDate;
 }
