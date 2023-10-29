@@ -2,7 +2,7 @@
 System for tracking currencies from different sites.
 
 
-version: Java 8 Spring Boot 2.5.1
+version: Java 1.8 Spring Boot 2.5.1
 
 Разработан REST сервис, хранящий и отдающий историю курсов валют. Решение использует стандартную библиотеку, Java EE, Spring Boot.
 Сервис периодически опрашивает разные сайты-источники курсов валют и сохраняет полученные с них данные в файловой системе. 
